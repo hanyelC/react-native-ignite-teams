@@ -26,6 +26,11 @@
         "./src/utils"
       ],
       "~/*": ["./src/*"]
-    }
+    },
+    "typeRoots": [
+      "./src/@types",
+      "styled-components-react-native",
+      "node_modules/@types"
+    ]
   }
 }
