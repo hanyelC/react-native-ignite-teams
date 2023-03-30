@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import { Groups } from '@screens'
 import theme from '@theme'
+import { Loading } from '@components'
 
-import { ActivityIndicator } from 'react-native'
 import { ThemeProvider } from 'styled-components'
 import {
   useFonts,
@@ -16,13 +16,9 @@ export default function App() {
     Roboto_700Bold,
   })
 
-  if (!fontsLoaded) {
-    return <ActivityIndicator />
-  }
-
   return (
     <ThemeProvider theme={theme}>
-      <Groups />
+      {fontsLoaded ? <Groups /> : <Loading />}
     </ThemeProvider>
   )
 }
