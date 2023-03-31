@@ -1,6 +1,6 @@
 import * as S from './styles'
 
-import { EmptyList, GroupCard, Header, Highlight } from '@components'
+import { Button, EmptyList, GroupCard, Header, Highlight } from '@components'
 
 import { useState } from 'react'
 import { FlatList } from 'react-native'
@@ -22,6 +22,8 @@ export function Groups() {
           <EmptyList message="Que tal cadastrar a primeira turma?" />
         )}
       />
+
+      <Button title="Criar nova turma" />
     </S.Container>
   )
 }
