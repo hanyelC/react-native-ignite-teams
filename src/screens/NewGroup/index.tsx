@@ -1,4 +1,4 @@
-import { Button, Header, Highlight } from '@components'
+import { Button, Header, Highlight, Input } from '@components'
 import * as S from './styles'
 
 export function NewGroup() {
@@ -12,7 +12,9 @@ export function NewGroup() {
           subtitle="crie a turma para adicionar as pessoas"
         />
 
-        <Button title="Criar" />
+        <Input placeholder="Nome da turma" />
+
+        <Button title="Criar" style={{ marginTop: 20 }} />
       </S.Content>
     </S.Container>
   )
