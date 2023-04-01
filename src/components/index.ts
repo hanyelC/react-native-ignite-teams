@@ -1,4 +1,5 @@
 export * from './Button'
+export * from './ButtonIcon'
 export * from './EmptyList'
 export * from './GroupCard'
 export * from './Header'

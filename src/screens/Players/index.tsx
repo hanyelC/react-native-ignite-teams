@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { Header, Highlight } from '@components'
+import { ButtonIcon, Header, Highlight, Input } from '@components'
 
 export function Players() {
   return (
@@ -10,6 +10,12 @@ export function Players() {
         title="Nome da turma"
         subtitle="adicione a galera e separe os times"
       />
+
+      <S.Form>
+        <Input placeholder="Nome da pessoa" autoCorrect={false} />
+
+        <ButtonIcon icon="add" />
+      </S.Form>
     </S.Container>
   )
 }
