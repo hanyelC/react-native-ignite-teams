@@ -1,12 +1,19 @@
 import * as S from './styles'
-import { ButtonIcon, Filter, Header, Highlight, Input } from '@components'
+import {
+  ButtonIcon,
+  Filter,
+  Header,
+  Highlight,
+  Input,
+  PlayerCard,
+} from '@components'
 
 import { FlatList, View } from 'react-native'
 import { useState } from 'react'
 
 export function Players() {
   const [team, setTeam] = useState<string>('Time A')
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<string[]>(['foo', 'baz'])
 
   return (
     <S.Container>
@@ -39,6 +46,15 @@ export function Players() {
         />
         <S.NumberOfPlayers>{players.length}</S.NumberOfPlayers>
       </S.HeaderList>
+
+      <FlatList
+        data={players}
+        keyExtractor={(item) => item}
+        renderItem={({ item }) => (
+          <PlayerCard name={item} onRemove={() => console.log(item)} />
+        )}
+        ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+      />
     </S.Container>
   )
 }
