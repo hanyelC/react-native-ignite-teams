@@ -9,7 +9,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/roboto'
 import { StatusBar } from 'react-native'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components/native'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
