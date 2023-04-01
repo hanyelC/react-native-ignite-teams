@@ -1,6 +1,7 @@
 export * from './Button'
 export * from './ButtonIcon'
 export * from './EmptyList'
+export * from './Filter'
 export * from './GroupCard'
 export * from './Header'
 export * from './Highlight'

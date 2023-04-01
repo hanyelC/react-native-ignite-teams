@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { ButtonIcon, Header, Highlight, Input } from '@components'
+import { ButtonIcon, Filter, Header, Highlight, Input } from '@components'
 
 export function Players() {
   return (
@@ -16,6 +16,9 @@ export function Players() {
 
         <ButtonIcon icon="add" />
       </S.Form>
+
+      <Filter title="Time A" isActive />
+      <Filter title="Time B" />
     </S.Container>
   )
 }
