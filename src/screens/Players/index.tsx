@@ -1,6 +1,8 @@
 import * as S from './styles'
 import {
+  Button,
   ButtonIcon,
+  EmptyList,
   Filter,
   Header,
   Highlight,
@@ -13,7 +15,7 @@ import { useState } from 'react'
 
 export function Players() {
   const [team, setTeam] = useState<string>('Time A')
-  const [players, setPlayers] = useState<string[]>(['foo', 'baz'])
+  const [players, setPlayers] = useState<string[]>([])
 
   return (
     <S.Container>
@@ -54,7 +56,14 @@ export function Players() {
           <PlayerCard name={item} onRemove={() => console.log(item)} />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
+        ListEmptyComponent={() => (
+          <EmptyList message="Não há pessoas nesse time" />
+        )}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[players.length === 0 && { flex: 1 }]}
       />
+
+      <Button title="Remover turma" variant="danger" />
     </S.Container>
   )
 }
