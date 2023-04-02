@@ -10,6 +10,7 @@ import {
 } from '@expo-google-fonts/roboto'
 import { StatusBar } from 'react-native'
 import { ThemeProvider } from 'styled-components/native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -18,13 +19,15 @@ export default function App() {
   })
 
   return (
-    <ThemeProvider theme={theme}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
-      {fontsLoaded ? <Routes /> : <Loading />}
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
