@@ -1,6 +1,7 @@
 import * as S from './styles'
 import { Button, Header, Highlight, Input } from '@components'
 import type { AppRoutesList } from '@routes'
+import { GroupsStorage } from '@storage'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useState } from 'react'
@@ -14,7 +15,10 @@ export function NewGroup({ navigation }: Props) {
     navigation.goBack()
   }
 
-  function handleCreateGroup() {
+  async function handleCreateGroup() {
+    const groupsStorage = new GroupsStorage()
+    await groupsStorage.create(group)
+
     navigation.navigate('Players', { group })
   }
 
