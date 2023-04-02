@@ -3,16 +3,19 @@ import { Button, Header, Highlight, Input } from '@components'
 import type { AppRoutesList } from '@routes'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useState } from 'react'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'NewGroup'>
 
 export function NewGroup({ navigation }: Props) {
+  const [group, setGroup] = useState<string>('')
+
   function goBack() {
     navigation.goBack()
   }
 
   function handleCreateGroup() {
-    navigation.navigate('Players', { group: 'foo' })
+    navigation.navigate('Players', { group })
   }
 
   return (
@@ -25,7 +28,11 @@ export function NewGroup({ navigation }: Props) {
           subtitle="crie a turma para adicionar as pessoas"
         />
 
-        <Input placeholder="Nome da turma" />
+        <Input
+          placeholder="Nome da turma"
+          onChangeText={setGroup}
+          value={group}
+        />
 
         <Button
           title="Criar"

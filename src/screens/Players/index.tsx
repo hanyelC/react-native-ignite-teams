@@ -17,7 +17,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
 
-export function Players({ navigation }: Props) {
+export function Players({ navigation, route }: Props) {
   const [team, setTeam] = useState<string>('Time A')
   const [players, setPlayers] = useState<string[]>([])
 
@@ -30,7 +30,7 @@ export function Players({ navigation }: Props) {
       <Header handleGoBack={goBack} />
 
       <Highlight
-        title="Nome da turma"
+        title={route.params.group}
         subtitle="adicione a galera e separe os times"
       />
 
