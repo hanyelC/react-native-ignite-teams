@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Loading } from '@components'
-import { Players } from '@screens'
+import { Routes } from '@routes'
 import theme from '@theme'
 
 import {
@@ -24,7 +24,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Players /> : <Loading />}
+      {fontsLoaded ? <Routes /> : <Loading />}
     </ThemeProvider>
   )
 }
