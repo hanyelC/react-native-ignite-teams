@@ -2,14 +2,14 @@ import * as S from './styles'
 import logoImg from '@assets/logo.png'
 
 type Props = {
-  showBackButton?: boolean
+  handleGoBack?: () => void
 }
 
-export function Header({ showBackButton = false }: Props) {
+export function Header({ handleGoBack }: Props) {
   return (
     <S.Container>
-      {showBackButton && (
-        <S.BackButton>
+      {handleGoBack && (
+        <S.BackButton onPress={handleGoBack}>
           <S.BackIcon />
         </S.BackButton>
       )}

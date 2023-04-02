@@ -9,17 +9,25 @@ import {
   Input,
   PlayerCard,
 } from '@components'
+import type { AppRoutesList } from '@routes'
 
 import { FlatList, View } from 'react-native'
 import { useState } from 'react'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-export function Players() {
+type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
+
+export function Players({ navigation }: Props) {
   const [team, setTeam] = useState<string>('Time A')
   const [players, setPlayers] = useState<string[]>([])
 
+  function goBack() {
+    navigation.navigate('Groups')
+  }
+
   return (
     <S.Container>
-      <Header showBackButton />
+      <Header handleGoBack={goBack} />
 
       <Highlight
         title="Nome da turma"
