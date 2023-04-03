@@ -6,7 +6,7 @@ export class GroupsStorage {
   private storageKey = GROUP_COLLECTION
 
   async create(name: string) {
-    const groups = await this.gelAll()
+    const { groups } = await this.gelAll()
 
     await AsyncStorage.setItem(
       this.storageKey,
@@ -19,6 +19,6 @@ export class GroupsStorage {
 
     const groups: string[] = storage ? JSON.parse(storage) : []
 
-    return groups
+    return { groups }
   }
 }
