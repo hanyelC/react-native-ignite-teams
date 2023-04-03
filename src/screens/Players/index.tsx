@@ -70,6 +70,7 @@ export function Players({ navigation, route }: Props) {
 
       await playersStorage.create(newPlayer, route.params.group)
 
+      setNewPlayerName('')
       fetchPlayersByTeam()
     } catch (error) {
       if (error instanceof AppError) {
