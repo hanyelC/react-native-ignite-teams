@@ -11,7 +11,7 @@ import {
   PlayerCard,
 } from '@components'
 import type { AppRoutesList } from '@routes'
-import { PlayersStorage } from '@storage'
+import { GroupsStorage, PlayersStorage } from '@storage'
 import { AppError } from '@utils'
 import { PlayerStorageDTO } from '~/storage/players/types'
 
@@ -103,6 +103,31 @@ export function Players({ navigation, route }: Props) {
     }
   }
 
+  async function handleRemoveGroup() {
+    console.log('here')
+    Alert.alert('Remover', 'Deseja remover o grupo?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: removeGroup },
+    ])
+  }
+
+  async function removeGroup() {
+    try {
+      const groupsStorage = new GroupsStorage()
+
+      await groupsStorage.removeByName(route.params.group)
+
+      navigation.navigate('Groups')
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Remover grupo', error.message)
+      } else {
+        console.error(error)
+        Alert.alert('Remover grupo', 'Não foi possível remove o grupo.')
+      }
+    }
+  }
+
   useEffect(() => {
     fetchPlayersByTeam()
   }, [fetchPlayersByTeam, team])
@@ -164,7 +189,11 @@ export function Players({ navigation, route }: Props) {
         contentContainerStyle={[players.length === 0 && { flex: 1 }]}
       />
 
-      <Button title="Remover turma" variant="danger" />
+      <Button
+        title="Remover turma"
+        variant="danger"
+        onPress={handleRemoveGroup}
+      />
     </S.Container>
   )
 }
