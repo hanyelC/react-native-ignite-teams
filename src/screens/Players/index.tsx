@@ -16,8 +16,8 @@ import { AppError } from '@utils'
 import { PlayerStorageDTO } from '~/storage/players/types'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useCallback, useEffect, useState } from 'react'
-import { Alert, FlatList, View } from 'react-native'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { Alert, FlatList, TextInput, View } from 'react-native'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
 
@@ -25,6 +25,8 @@ export function Players({ navigation, route }: Props) {
   const [newPlayerName, setNewPlayerName] = useState<string>('')
   const [team, setTeam] = useState<string>('Time A')
   const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
+
+  const newPlayerNameInputRef = useRef<TextInput>(null)
 
   const fetchPlayersByTeam = useCallback(async () => {
     try {
@@ -70,6 +72,8 @@ export function Players({ navigation, route }: Props) {
 
       await playersStorage.create(newPlayer, route.params.group)
 
+      newPlayerNameInputRef.current?.blur()
+
       setNewPlayerName('')
       fetchPlayersByTeam()
     } catch (error) {
@@ -97,9 +101,12 @@ export function Players({ navigation, route }: Props) {
 
       <S.Form>
         <Input
-          placeholder="Nome da pessoa"
           autoCorrect={false}
           onChangeText={setNewPlayerName}
+          onSubmitEditing={handleAddPlayer}
+          placeholder="Nome da pessoa"
+          ref={newPlayerNameInputRef}
+          returnKeyType="done"
           value={newPlayerName}
         />
 
