@@ -20,6 +20,10 @@ export function NewGroup({ navigation }: Props) {
 
   async function handleCreateGroup() {
     try {
+      if (group.trim().length === 0) {
+        return Alert.alert('Novo Grupo', 'Informe o nome da turma.')
+      }
+
       const groupsStorage = new GroupsStorage()
       await groupsStorage.create(group)
 
