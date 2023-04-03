@@ -86,6 +86,23 @@ export function Players({ navigation, route }: Props) {
     }
   }
 
+  async function handleRemovePlayer(playerName: string) {
+    try {
+      const playersStorage = new PlayersStorage()
+
+      await playersStorage.removeByGroup(playerName, route.params.group)
+
+      fetchPlayersByTeam()
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Nova pessoa', error.message)
+      } else {
+        console.log(error)
+        Alert.alert('Nova pessoa', 'Não foi possível adicionar.')
+      }
+    }
+  }
+
   useEffect(() => {
     fetchPlayersByTeam()
   }, [fetchPlayersByTeam, team])
@@ -134,7 +151,10 @@ export function Players({ navigation, route }: Props) {
         data={players}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <PlayerCard name={item.name} onRemove={() => console.log(item)} />
+          <PlayerCard
+            name={item.name}
+            onRemove={() => handleRemovePlayer(item.name)}
+          />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         ListEmptyComponent={() => (

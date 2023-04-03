@@ -58,4 +58,24 @@ export class PlayersStorage {
       }
     }
   }
+
+  async removeByGroup(playerName: string, group: string) {
+    try {
+      const players = await this.findByGroup(group)
+
+      const filtered = players.filter((item) => item.name !== playerName)
+
+      await AsyncStorage.setItem(
+        this.getStorageKey(group),
+        JSON.stringify(filtered),
+      )
+    } catch (error) {
+      if (error instanceof UnexpectedError) {
+        throw error
+      } else {
+        console.error(error)
+        throw new UnexpectedError()
+      }
+    }
+  }
 }
