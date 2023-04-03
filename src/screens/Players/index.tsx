@@ -1,4 +1,5 @@
 import * as S from './styles'
+
 import {
   Button,
   ButtonIcon,
@@ -10,19 +11,53 @@ import {
   PlayerCard,
 } from '@components'
 import type { AppRoutesList } from '@routes'
+import { PlayersStorage } from '@storage'
+import { AppError } from '@utils'
+import { PlayerStorageDTO } from '~/storage/players/types'
 
-import { FlatList, View } from 'react-native'
-import { useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { useState } from 'react'
+import { Alert, FlatList, View } from 'react-native'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
 
 export function Players({ navigation, route }: Props) {
+  const [newPlayerName, setNewPlayerName] = useState<string>('')
   const [team, setTeam] = useState<string>('Time A')
   const [players, setPlayers] = useState<string[]>([])
 
   function goBack() {
     navigation.navigate('Groups')
+  }
+
+  async function handleAddPlayer() {
+    try {
+      if (newPlayerName.trim().length === 0) {
+        return Alert.alert(
+          'Nova pessoa',
+          'Informe o nome da pessoa para adicionar.',
+        )
+      }
+
+      const newPlayer: PlayerStorageDTO = {
+        name: newPlayerName,
+        team,
+      }
+
+      const playersStorage = new PlayersStorage()
+
+      await playersStorage.create(newPlayer, route.params.group)
+      const players = await playersStorage.findByGroup(route.params.group)
+
+      console.log(players)
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Nova pessoa', error.message)
+      } else {
+        console.log(error)
+        Alert.alert('Nova pessoa', 'Não foi possível adicionar.')
+      }
+    }
   }
 
   return (
@@ -35,9 +70,14 @@ export function Players({ navigation, route }: Props) {
       />
 
       <S.Form>
-        <Input placeholder="Nome da pessoa" autoCorrect={false} />
+        <Input
+          placeholder="Nome da pessoa"
+          autoCorrect={false}
+          onChangeText={setNewPlayerName}
+          value={newPlayerName}
+        />
 
-        <ButtonIcon icon="add" />
+        <ButtonIcon icon="add" onPress={handleAddPlayer} />
       </S.Form>
 
       <S.HeaderList>
