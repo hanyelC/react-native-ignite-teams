@@ -1,10 +1,13 @@
 import * as S from './styles'
+
 import { Button, Header, Highlight, Input } from '@components'
 import type { AppRoutesList } from '@routes'
 import { GroupsStorage } from '@storage'
+import { AppError } from '@utils'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useState } from 'react'
+import { Alert } from 'react-native'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'NewGroup'>
 
@@ -16,10 +19,19 @@ export function NewGroup({ navigation }: Props) {
   }
 
   async function handleCreateGroup() {
-    const groupsStorage = new GroupsStorage()
-    await groupsStorage.create(group)
+    try {
+      const groupsStorage = new GroupsStorage()
+      await groupsStorage.create(group)
 
-    navigation.navigate('Players', { group })
+      navigation.navigate('Players', { group })
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Novo grupo', error.message)
+      } else {
+        console.error(error)
+        Alert.alert('Novo Grupo', 'Não foi possível criar um novo grupo')
+      }
+    }
   }
 
   return (
