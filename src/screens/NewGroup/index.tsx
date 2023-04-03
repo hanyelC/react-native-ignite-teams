@@ -21,7 +21,7 @@ export function NewGroup({ navigation }: Props) {
   async function handleCreateGroup() {
     try {
       if (group.trim().length === 0) {
-        return Alert.alert('Novo Grupo', 'Informe o nome da turma.')
+        return Alert.alert('Nova turma', 'Informe o nome da turma.')
       }
 
       const groupsStorage = new GroupsStorage()
@@ -30,10 +30,10 @@ export function NewGroup({ navigation }: Props) {
       navigation.navigate('Players', { group })
     } catch (error) {
       if (error instanceof AppError) {
-        Alert.alert('Novo grupo', error.message)
+        Alert.alert('Nova turma', error.message)
       } else {
         console.error(error)
-        Alert.alert('Novo Grupo', 'Não foi possível criar um novo grupo')
+        Alert.alert('Nova turma', 'Não foi possível criar uma nova turma')
       }
     }
   }
