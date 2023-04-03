@@ -16,7 +16,7 @@ import { AppError } from '@utils'
 import { PlayerStorageDTO } from '~/storage/players/types'
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Alert, FlatList, View } from 'react-native'
 
 type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
@@ -24,7 +24,29 @@ type Props = NativeStackScreenProps<AppRoutesList, 'Players'>
 export function Players({ navigation, route }: Props) {
   const [newPlayerName, setNewPlayerName] = useState<string>('')
   const [team, setTeam] = useState<string>('Time A')
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<PlayerStorageDTO[]>([])
+
+  const fetchPlayersByTeam = useCallback(async () => {
+    try {
+      const playersStorage = new PlayersStorage()
+
+      const players = await playersStorage.findByGroupAndTeam(
+        route.params.group,
+        team,
+      )
+
+      setPlayers(players)
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Jogadores', error.message)
+      } else {
+        Alert.alert(
+          'Jogadores',
+          'Não foi possível carregar os jogadores do time',
+        )
+      }
+    }
+  }, [route.params.group, team])
 
   function goBack() {
     navigation.navigate('Groups')
@@ -47,9 +69,8 @@ export function Players({ navigation, route }: Props) {
       const playersStorage = new PlayersStorage()
 
       await playersStorage.create(newPlayer, route.params.group)
-      const players = await playersStorage.findByGroup(route.params.group)
 
-      console.log(players)
+      fetchPlayersByTeam()
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert('Nova pessoa', error.message)
@@ -59,6 +80,10 @@ export function Players({ navigation, route }: Props) {
       }
     }
   }
+
+  useEffect(() => {
+    fetchPlayersByTeam()
+  }, [fetchPlayersByTeam, team])
 
   return (
     <S.Container>
@@ -99,9 +124,9 @@ export function Players({ navigation, route }: Props) {
 
       <FlatList
         data={players}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.name}
         renderItem={({ item }) => (
-          <PlayerCard name={item} onRemove={() => console.log(item)} />
+          <PlayerCard name={item.name} onRemove={() => console.log(item)} />
         )}
         ItemSeparatorComponent={() => <View style={{ height: 16 }} />}
         ListEmptyComponent={() => (

@@ -43,4 +43,19 @@ export class PlayersStorage {
       throw new UnexpectedError()
     }
   }
+
+  async findByGroupAndTeam(group: string, team: string) {
+    try {
+      const players = await this.findByGroup(group)
+
+      return players.filter((item) => item.team === team)
+    } catch (error) {
+      if (error instanceof UnexpectedError) {
+        throw error
+      } else {
+        console.error(error)
+        throw new UnexpectedError()
+      }
+    }
+  }
 }
