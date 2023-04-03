@@ -1,5 +1,6 @@
 import * as S from './styles'
-import { ButtonIcon } from '@components'
+
+import { ButtonIcon } from '../ButtonIcon'
 
 type Props = {
   name: string
