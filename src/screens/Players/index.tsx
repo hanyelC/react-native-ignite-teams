@@ -90,7 +90,7 @@ export function Players({ navigation, route }: Props) {
     try {
       const playersStorage = new PlayersStorage()
 
-      await playersStorage.removeByGroup(playerName, route.params.group)
+      await playersStorage.removeByNameAndGroup(playerName, route.params.group)
 
       fetchPlayersByTeam()
     } catch (error) {

@@ -59,7 +59,7 @@ export class PlayersStorage {
     }
   }
 
-  async removeByGroup(playerName: string, group: string) {
+  async removeByNameAndGroup(playerName: string, group: string) {
     try {
       const players = await this.findByGroup(group)
 
